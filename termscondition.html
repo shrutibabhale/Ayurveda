@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and conditions</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="script.js"></script>
+</head>
+<style>
+    .navbar-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px;
+    }
+
+    html,
+    body {
+        overflow-y: visible;
+    }
+
+    .left-container {
+        background-color: #F0F0F0;
+        height: 70vh;
+        width: 100%;
+        padding: 5px;
+        cursor: pointer;
+        position: sticky;
+        top: 0;
+        overflow-y: auto;
+        
+    }
+
+    .container {
+        margin-top: 40px;
+    }
+
+
+    .left-container h5:hover,
+    .left-container h6:hover {
+
+        text-decoration: underline;
+    }
+
+    .navbar a {
+        margin-right: 20px;
+        color: black;
+        font-weight: 600;
+    }
+
+    .sign-in-button {
+        margin-right: 30px;
+    }
+
+    .heading h2 {
+        color: #4C4C4C;
+        font-weight: 700;
+        font-size: xx-large;
+    }
+
+    .heading p b {
+        color: #717171;
+    }
+
+    .right-container {
+        height: 100%;
+        overflow-y: auto;
+        color: #717171;
+
+    }
+
+    .content {
+        padding-right: 15px;
+    }
+
+    .content-section span {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .second-heading h6 {
+        color: #717171;
+        font-weight: 600;
+
+    }
+
+    p span {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .privacy h5,
+    .privacy h6 {
+        margin-bottom: 20px;
+        margin-top: 30px;
+    }
+
+    .left-container.text-end {
+        border-bottom-right-radius: 10px;
+        border-right: 10px solid transparent;
+    }
+
+    .border-selected {
+        border-right: 10px solid #4B70E2;
+    }
+
+    .black-link {
+        color: rgb(133, 133, 133);
+    }
+</style>
+
+<body>
+   
+    <section>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="left-container text-end" id="leftContainer">
+                        <div class="privacy">
+                            <h5 data-bs-toggle="collapse" data-bs-target="#terms" onclick="scrollToContent('terms')">
+                                Terms
+                                and Conditions</h5>
+                            <h6 data-bs-toggle="collapse" data-bs-target="#privacy" onclick="toggleBorder(this)">Privacy
+                                Policy</h6>
+                            <div id="privacy" class="collapse">
+                                <a href="#collection" class="black-link">What we Collect.</a><br>
+                                <a href="#usage" class="black-link">What do we do with the information we
+                                    collect.</a><br>
+                                <a href="#security" class="black-link">Security</a><br>
+                                <a href="#disclaimer" class="black-link">Disclaimer Policy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" col-md-8">
+                    <div class="right-container">
+                        <div id="terms">
+                            <h4>Terms and Conditions</h4>
+                            <p><b>Website</b>: AYURVEDA-Drug prediction
+                            </p>
+                        </div>
+                        <div class="content-section">
+                            <span>The website “AYURVEDA” is formed for the students and practioners to get the 
+                                ayurvedic drug for selected symptoms.This website is customized website for students who studies on ayuveda's drug.
+                            </span>
+                            <br><span>Greetings from us. Our relationship with you is governed by
+                                the
+                                terms and conditions of use mentioned below, which, along with our privacy policy, you
+                                agree
+                                to comply with if you continue to browse and use our website.</span>
+                            <span>The use of this website is subject to the following terms of use:</span>
+                            <ul>
+                                <li>
+                                    This website's content is solely for the students and practioner of ayurveda who studies on ayurveda's drug
+                                </li>
+                                <li>Regarding the accuracy, timeliness, functionality, completeness, or suitability of
+                                    the
+                                    information and materials found or made available on this website for any specific
+                                    purpose, neither we nor any third parties give any warranty or guarantee. To the
+                                    maximum
+                                    extent permissible by law, you acknowledge that such information and materials may
+                                    contain mistakes or inaccuracies, and we specifically disclaim any liability for any
+                                    such errors or inaccuracies.</li>
+                        </div>
+                        <div id="privacy">
+                            <h5><a href="#collection" style="color: #717171;">Privacy Policy</a></h5>
+                            <p>A privacy policy outlines how you plan to protect consumers&#39; privacy when using your
+                                website. It
+                                outlines the data you&#39;ll collect, how you&#39;ll use it, and the security measures
+                                you&#39;ll take.</p>
+                        </div>
+                        <div class="privacy-second-section" id="collection">
+                            <h5>What We Collect</h5>
+                            <p>We may collect the following information: </p>
+                            <ul>
+                                <li><span>Name </span></li>
+                                <li><span>Age</span></li>
+                                <li><span>Gender</span>
+                                </li>
+                                <li><span>Role</span></li>
+                                <li><span>Email</span></li>
+                                <li><span>City</span></li>
+                                <li><span>Password</span></li>
+                                <li><span>Past medical conditions</span></li>
+                            </ul>
+                            <p>
+                            <div class="usage" id="usage">
+
+                            </div>
+                            <ul>
+                                <li><span>For keeping internal records.</span></li>
+                                <li><span>We may use the information to improve our services.</span></li>
+                                <li><span>We may take your email for your credential purpose</span></li>
+                            </p>
+                        </div>
+                        <div class="security" id="security">
+                            <h5>Security</h5>
+                            <span>We are dedicated to protecting your information. We have put in place appropriate
+                                physical,
+                                technological, and administrative policies to safeguard and secure the information we
+                                collect online
+                                in order to prevent unauthorized access or disclosure.</span>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="shortcut icon" href="../static/assets/img/ayucare%20logo.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../static/assets/img/apple-icon.png"/>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet"href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css"/>
+      <script src="https://cdn.tailwindcss.com"></script>
+   <title>AYURVEDA</title>
+   <style>
+    @media (max-width:560px) { 
+      #bottom_nav { display: none}
+      .example { display: block; float:right;}
+    }
+    
+    @media (min-width:561px) { 
+      #bottom_nav { display: block;}
+      .example { display: none; }
+    }
+        @media screen and (max-width: 560px) {
+          .navbar-list {
+            display: none;
+          }
+    
+          .navbar-list.show {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 110px; /* Adjust the top position as needed */
+            left: 0;
+            width: 100%;
+            background-color: #333333be;
+            z-index: 1;
+          }
+    
+          .navbar-list a {
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #f2f2f2;
+            text-align: center;
+          }
+    
+          .navbar-list a:hover {
+            background-color: #ddd;
+            color: black;
+          }
+        }
+    </style>
+  </head>
+
+  <body class=" antialiased ">
+
+    <!--  Navigation Bar-->
+
+   <nav class="flex items-center text-black">
+    <div class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 shadow-xl">
+      <a href="{{ url_for('index') }}"><img src="../static/assets/img/ayucare%20logo.png" class="w-20 cursor-pointer"></a>
+      
+      <!-- Navigation Links -->
+      <ul class="flex-1 text-center text-black navbar-list">
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('index') }}" class="no-underline px-2">Home</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('service') }}" class="no-underline px-2">Services</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('DrugInformation') }}" class="no-underline px-2">Drug Information</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('doc_service') }}" class="no-underline px-2">Treatment centers</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('faq') }}" class="no-underline px-2">FAQs</a></li>
+      </ul>
+  
+      <!-- User Info and Log In/Out Button -->
+      <div class="navbar-list">
+        {% if current_user.is_authenticated %}
+        <div style="display: inline-flex; align-items: center;">
+          <i class="fa fa-user" style="font-size: 1em; margin-right: 8px; color: black;"></i>
+          <strong style="font-weight: bold; color: #333;">{{current_user.firstname}} {{current_user.lastname}} |</strong>
+          <a href="{{ url_for('logout') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6 ml-3" type="button" style="transition: all 0.15s ease 0s;"> Log Out </button>
+          </a>
+        </div>
+        {% else %}
+          <a href="{{ url_for('login') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6" type="button" style="transition: all 0.15s ease 0s;"> Log In </button>
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Hamburger icon for responsive menu -->
+      
+      
+    <!-- Responsive menu -->
+    <div class="example">
+      <div style="display: inline-flexbox; float:right; justify-content: flex-end; padding: 4px;">
+        <a href="javascript:void(0);" class="icon" onclick="toggleNavbar('navbarList')">
+          <i class="fa fa-bars"></i>
+        </a></div>
+    <ul class="navbar-list" id="navbarList">
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('index') }}" class="no-underline px-2">Home</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('service') }}" class="no-underline px-2">Services</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('DrugInformation') }}" class="no-underline px-2">Drug Information</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('doc_service') }}" class="no-underline px-2">Treatment Centers</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('faq') }}" class="no-underline px-2">FAQs</a></li>
+      <div>
+        {% if current_user.is_authenticated %} 
+            <div style="display: inline-flexbox; justify-content: flex-end; padding: 2px;">
+            <div style="display: inline-block; align-items: center;">
+            <i class="fa fa-user" style="font-size: 1em; margin-right: 8px; color: black;"></i>
+            <strong style="font-weight: bold; color: white;">{{current_user.firstname}} {{current_user.lastname}} |</strong>
+            </div>
+            <a href="{{ url_for('logout') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6 ml-3" type="button" style="transition: all 0.15s ease 0s;"> Log Out </button>
+            </a>
+            </div>
+        {% else %}
+        <a href="{{ url_for('login') }}">
+          <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 rounded-full px-6" type="button" style="transition: all 0.15s ease 0s;"> Log In </button>
+        </a>
+        {% endif %}
+      </div>
+      </ul>
+    </div>
+  </nav>
+
+   <!--  Navigation Bar-->
+
+     
+
+    <!--  Main section-->
+    <main>
+        <div class= "relative pt-20 pb-32 flex content-center items-center justify-center" style="min-height: 75vh;" >
+            <div class="absolute top-0 w-full h-full bg-center bg-cover" style='background-image: url("../static/assets/img/m.png");'>
+            <span class="w-full h-full absolute  "></span>
+        </div>
+        <div class="container relative mx-auto">
+          <div class="items-center flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+              <div class="pr-12">
+                <h1 class="pt-20 font-bold text-5xl text-black">
+                  AYURVEDA
+                </h1>
+                  <br><br>
+                <p class="mt-4 text-lg text-black">
+                  <b>STATE-OF-THE-ART DRUG PREDICTION
+                      <br>&<br> AYURVEDIC MEDICINE RECOMMENDATION PLATFORM</b>
+                </p>
+                  <br><br>
+                  <center>
+                      <a href="{{ url_for('login') }}">
+                      <button class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-8 py-2 rounded outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 rounded-full transition duration-150
+                          ease-in-out bg-gradient-to-r from-gray-400 to-black-500 hover:from-gray-500 hover:to-gray-200 ..."
+                        type="button" id="beginButton"
+                        style="transition: all 0.15s ease 0s;">
+                        Begin Your Journey Today
+                      </button></a>
+                  </center>
+                    <br><br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden" style="height: 70px;">
+          <svg
+            class="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0"
+          >
+            <polygon
+              class="text-gray-300 fill-current"
+              points="2560 0 2560 100 0 100"
+            ></polygon>
+          </svg>
+        </div>
+      </div>
+      <section class="pb-20 bg-gray-300 -mt-24  ">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-wrap ">
+            <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
+              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                <div class="px-4 py-5 flex-auto">
+                  <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-black">
+                    <i class="fas fa-award"></i>
+                  </div>
+                    <a href="{{ url_for('service') }}">
+                  <h6 class="text-xl font-semibold">Predicting Symptoms</h6>
+                  <p class="mt-2 mb-4 text-gray-600">
+                    Our advanced model predicts single drug for multiple symptoms of different diseases according to need of user.</p>
+                        </a>
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:w-4/12 px-4 text-center">
+              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                <div class="px-4 py-5 flex-auto">
+                  <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-black">
+                    <i class="fas fa-retweet"></i>
+                  </div>
+                    <a href="{{ url_for('service') }}">
+                  <h6 class="text-xl font-semibold ">Recommending Ayurvedic Medicine</h6>
+                  <p class="mt-2 mb-4 text-gray-600">
+                    Our Ayurvedic medicine recommendation system suggests personalized,
+                    single medicine based on multiple symptoms enterd by user. 
+                  </p>
+                    </a>
+                </div>
+              </div>
+            </div>
+            <div class="pt-6 w-full md:w-4/12 px-4 text-center">
+              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                <div class="px-4 py-5 flex-auto">
+                  <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-black">
+                    <i class="fas fa-fingerprint"></i>
+                  </div>
+                    <a href="{{ url_for('service') }}">
+                  <h6 class="text-xl font-semibold">Drug list</h6>
+                  <p class="mt-2 mb-4 text-gray-600">
+                    Here you will find all the drugs with their symptoms
+                    Consume less from the box and more from the environment.
+                  </p>
+                  <center>
+                    <a href="{{ url_for('druglist') }}">
+                    <button class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-8 py-2 rounded outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 rounded-full transition duration-150
+                        ease-in-out bg-gradient-to-r from-gray-400 to-gray-200 hover:from-gray-500 hover:to-gray-200 ..."
+                      type="button"
+                      style="transition: all 0.15s ease 0s;">
+                      View List
+                    </button></a>
+                </center>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- SECTION 2 -->
+          <div class="flex flex-wrap items-center mt-32">
+            <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+              <div class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100">
+                <i class="fas fa-user-friends text-xl"></i>
+              </div>
+              <h3 class="text-3xl mb-2 font-semibold leading-normal">
+                Learn More About Ayurveda
+              </h3>
+              <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
+                 Machine learning models are revolutionizing the field of Ayurvedic medicine by providing
+                    accurate drug predictions. <br>
+
+              </p>
+              <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-700">
+                Ayurvedic medicine includes a long history of the uses of plants and herbal remedies for healing and treatment of diseases. Over 1,500 herbals remedies have been documented in ancient Ayurvedic texts.
+
+
+
+              </p>
+
+            </div>
+            <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-600">
+               <!-- SECTION 2 IMAGE-->
+                <img alt="..." src="../static/assets/img/sec2.jpg"/>
+                <blockquote class="relative p-8 mb-4">
+                  <svg
+                    preserveAspectRatio="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 583 95"
+                    class="absolute left-0 w-full block"
+                    style="height: 95px; top: -94px;">
+                    <polygon
+                      points="-30,95 583,95 583,65"
+                      class="text-black-600 fill-current"
+                    ></polygon>
+                  </svg>
+                  <h4 class="text-xl font-bold text-white">
+
+                  </h4>
+                  <p class="text-md font-light mt-2 text-black">
+                    At Ayurveda,Ayurveda outlines three main energies or doshas that can exist in the body- vata, pitta, and kapha. Each individual has a unique mix of these doshas. Identifying someone's dosha profile allows an Ayurvedic practitioner to recommend tailored lifestyle, diet, and herbal remedies to restore balance.
+
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--SECTION 02-->
+
+      <!--SECTION 03-->
+      
+            
+         
+                
+      
+      <section class="pb-20 relative block bg-gray-900">
+        <div
+          class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+          style="height: 80px;"
+        >
+          <svg
+            class="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0"
+          >
+            <polygon
+              class="text-gray-900 fill-current"
+              points="2560 0 2560 100 0 100"
+            ></polygon>
+          </svg>
+        </div>
+        <div class="container mx-auto px-4 lg:pt-24 lg:pb-30">
+          <div class="flex flex-wrap text-center justify-center">
+            <div class="w-full lg:w-6/12 px-4">
+              <h2 class="text-3xl font-semibold text-white">Register Today for a Personalized Experience</h2><br>
+              <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
+               We are committed to providing our users
+                  good services.
+                  To get started, simply register for our services,
+                  and gain access to our powerful drug prediction and Ayurvedic medicine recommendation systems.
+                  By inputting your symptoms and using our advanced machine learning algorithms,
+                  you can receive accurate and reliable drug predictions,
+                  and natural remedies that can be easily accessed from home. <br>
+                  Join our community today and prioritize your health with Ayurvedas.
+              </p>
+                <br>
+                <center> <a href="{{ url_for('register') }}">
+                      <button class=" text-xs font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 rounded-full transition duration-150
+                          ease-in-out bg-gradient-to-r from-gray-400 to-gray-200 hover:from-gray-500 hover:to-white-500 ..."
+                        type="button"
+                        style="transition: all 0.15s ease 0s;">
+                        Register
+                      </button></a></center>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+    <!--  Main section-->
+
+
+    <!--  Footer section-->
+    <footer class="relative bg-gray-300 pt-8 pb-6">
+      <div
+        class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+        style="height: 80px;"
+      >
+        <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0" >
+          <polygon
+            class="text-gray-300 fill-current"
+            points="2560 0 2560 100 0 100"
+          ></polygon>
+        </svg>
+      </div>
+      <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+          <div class="w-full lg:w-6/12 px-4">
+            <h4 class="text-3xl font-semibold">AYURVEDA</h4>
+
+          </div>
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="flex flex-wrap items-top mb-6">
+              <div class="w-full lg:w-4/12 px-4 ml-auto">
+                <span
+                  class="block uppercase text-gray-600 text-sm font-semibold mb-2"
+                  >Useful Links</span
+                >
+                <ul class="list-unstyled">
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="#"
+                      >About Us
+                      </a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="{{ url_for('service') }}">
+                      Services</a
+                    >
+                  </li>
+
+                </ul>
+              </div>
+              <div class="w-full lg:w-4/12 px-4">
+                <span
+                  class="block uppercase text-gray-600 text-sm font-semibold mb-2"
+                  >Other Resources</span
+                >
+                <ul class="list-unstyled">
+
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="{{url_for('termscondition')}}"
+                      >Terms &amp; Conditions</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="{{url_for('termscondition')}}"
+                      >Privacy Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="#"
+                      >Contact Us
+                      <br><br>
+                      gaurivibhute209@gmail.com
+                      <br>
+                      swapnalishah737@gmail.com
+                      <br>shrutibabhale17190299@gmail.com<br>
+                      arpitashrigani@gmail.com</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="my-6 border-gray-400" />
+        <div
+          class="flex flex-wrap items-center md:justify-between justify-center"
+        >
+          <div class="w-full md:w-4/12 px-4 mx-auto text-center">
+            <div class="text-sm text-gray-600 font-semibold py-1">
+              Copyright © 2023 Ayurveda
+              <a
+                href="#"
+                class="text-gray-600 hover:text-gray-900"
+                ></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!--  Footer section-->
+
+   <script>
+    function toggleNavbar(collapseID) {
+      document.getElementById(collapseID).classList.toggle("hidden");
+      document.getElementById(collapseID).classList.toggle("block");
+        const beginButton = document.getElementById("beginButton");
+        beginButton.addEventListener("click", function() {
+        window.location.href = "login.html";
+});
+    }
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className == "flex-1 items-center text-black") {
+        x.className += " responsive";
+      } else {
+        x.className = "tflex items-center text-black";
+      }
+    }
+  </script>
+  <script>
+    function toggleNavbar(collapseID) {
+      const navbarList = document.getElementById(collapseID);
+      navbarList.classList.toggle("hidden");
+      navbarList.classList.toggle("show");
+    }
+  </script>
+  </body>
+
+</html>

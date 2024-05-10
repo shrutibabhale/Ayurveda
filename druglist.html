@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Druglist</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="shortcut icon" href="../static/assets/img/ayucare%20logo.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../static/assets/img/apple-icon.png"/>
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet"/>
+  <link rel="stylesheet"href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <style>
+    @media (max-width:560px) { 
+      #bottom_nav { display: none}
+      .example { display: block; float:right;}
+    }
+    
+    @media (min-width:561px) { 
+      #bottom_nav { display: block;}
+      .example { display: none; }
+    }
+        @media screen and (max-width: 560px) {
+          .navbar-list {
+            display: none;
+          }
+    
+          .navbar-list.show {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 110px; /* Adjust the top position as needed */
+            left: 0;
+            width: 100%;
+            background-color: #333333be;
+            z-index: 1;
+          }
+    
+          .navbar-list a {
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #f2f2f2;
+            text-align: center;
+          }
+    
+          .navbar-list a:hover {
+            background-color: #ddd;
+            color: black;
+          }
+        }
+    </style>
+      <!--  Navigation Bar-->
+
+   <nav class="flex items-center text-black">
+    <div class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 shadow-xl">
+      <a href="{{ url_for('index') }}"><img src="../static/assets/img/ayucare%20logo.png" class="w-20 cursor-pointer"></a>
+      
+      <!-- Navigation Links -->
+      <ul class="flex-1 text-center text-black navbar-list">
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('index') }}" class="no-underline px-2">Home</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('service') }}" class="no-underline px-2">Services</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('DrugInformation') }}" class="no-underline px-2">Drug Information</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('doc_service') }}" class="no-underline px-2">Treatment centers</a></li>
+        <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-gray-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('faq') }}" class="no-underline px-2">FAQs</a></li>
+      </ul>
+  
+      <!-- User Info and Log In/Out Button -->
+      <div class="navbar-list">
+        {% if current_user.is_authenticated %}
+        <div style="display: inline-flex; align-items: center;">
+          <i class="fa fa-user" style="font-size: 1em; margin-right: 8px; color: black;"></i>
+          <strong style="font-weight: bold; color: #333;">{{current_user.firstname}} {{current_user.lastname}} |</strong>
+          <a href="{{ url_for('logout') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6 ml-3" type="button" style="transition: all 0.15s ease 0s;"> Log Out </button>
+          </a>
+        </div>
+        {% else %}
+          <a href="{{ url_for('login') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6" type="button" style="transition: all 0.15s ease 0s;"> Log In </button>
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Hamburger icon for responsive menu -->
+      
+      
+    <!-- Responsive menu -->
+    <div class="example">
+      <div style="display: inline-flexbox; float:right; justify-content: flex-end; padding: 4px;">
+        <a href="javascript:void(0);" class="icon" onclick="toggleNavbar('navbarList')">
+          <i class="fa fa-bars"></i>
+        </a></div>
+    <ul class="navbar-list" id="navbarList">
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('index') }}" class="no-underline px-2">Home</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('service') }}" class="no-underline px-2">Services</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('DrugInformation') }}" class="no-underline px-2">Drug Information</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('doc_service') }}" class="no-underline px-2">Treatment Centers</a></li>
+      <li class="list-none inline-block px-5 text-lg leading-lg hover:underline hover:bg-burlywood-200 hover:font-bold hover:rounded-full"><a href="{{ url_for('faq') }}" class="no-underline px-2">FAQs</a></li>
+      <div>
+        {% if current_user.is_authenticated %} 
+            <div style="display: inline-flexbox; justify-content: flex-end; padding: 2px;">
+            <div style="display: inline-block; align-items: center;">
+            <i class="fa fa-user" style="font-size: 1em; margin-right: 8px; color: black;"></i>
+            <strong style="font-weight: bold; color: white;">{{current_user.firstname}} {{current_user.lastname}} |</strong>
+            </div>
+            <a href="{{ url_for('logout') }}">
+            <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 mb-3 rounded-full px-6 ml-3" type="button" style="transition: all 0.15s ease 0s;"> Log Out </button>
+            </a>
+            </div>
+        {% else %}
+        <a href="{{ url_for('login') }}">
+          <button class="bg-black text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 rounded-full px-6" type="button" style="transition: all 0.15s ease 0s;"> Log In </button>
+        </a>
+        {% endif %}
+      </div>
+      </ul>
+    </div>
+  </nav>
+
+   <!--  Navigation Bar-->
+
+
+<style>
+  table, th, td {
+    border: 0.5px solid black;
+  }
+  table.center {
+    margin-left: auto; 
+    margin-right: auto;
+     /* default styling. Nothing to do with freexing first row and column */
+  main {display: flex;}
+  main > * {border: 3px solid;}
+  table {border-collapse: collapse; font-family: helvetica}
+  td, th {border:  3px solid;
+        padding: 7px;
+        min-width: 200px;
+        background: gray;
+        box-sizing: border-box;
+        text-align: left;
+  }
+  .table-container {
+    position: relative;
+    max-height:  300px;
+    width: 500px;
+    overflow: scroll;
+  }
+  
+  thead th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10;
+    z-index: 2;
+    background: gray;
+  }
+  
+  thead th:first-child {
+    left: 30;
+    z-index: 3;
+  }
+  
+  tfoot {
+    position: -webkit-sticky;
+    bottom: 0;
+    z-index: 2;
+  }
+  
+  tfoot td {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: rgb(200,200,200);
+  }
+  
+  tfoot td:first-child {
+    z-index: 3;
+  }
+  
+  tbody {
+    overflow: scroll;
+    height: 200px;
+  }
+  
+  /* MAKE LEFT COLUMN FIXEZ */
+  tr > :first-child {
+    position: -webkit-sticky;
+    position: sticky; 
+    background: rgb(200,200,200);
+    left: 0; 
+  }
+  /* don't do this */
+  tr > :first-child {
+    box-shadow: inset 0px 1px black;
+  }
+  
+  }
+  </style>
+  </head>
+  <body>
+    <br><br><br><br><br><br>
+    
+    <style>
+      .center{
+        border-collapse:collapse;
+        margin:25px 0;
+        min-width:400px;
+  
+      }
+      .center th{
+        background-color:gray;
+        color:rgb(84, 80, 80);
+        text-align:left;
+  
+      }
+</style>
+</head>
+<body>
+  <br>
+  <h1 bold style="text-align: center;">DRUG LIST</h1>
+  <br>
+  <style>
+    .center{
+      border-collapse:collapse;
+      margin:25px 0;
+      min-width:400px;
+
+    }
+    .center th{
+      background-color:gray;
+      color:black;
+      text-align:left;
+
+    }
+  </style>
+<table class="center">
+  <tr> <th> Drugs </th></tr>
+<tr>	<td>	Abhayarishta	</td>	</tr>
+<tr>	<td>	Amritarishta	</td>	</tr>
+<tr>	<td>	Aragvadharishta	</td>	</tr>
+<tr>	<td>	Aravindasava	</td>	</tr>
+<tr>	<td>	Arjunarishta/Parthadyarishta	</td>	</tr>
+<tr>	<td>	Ashokarishta	</td>	</tr>
+<tr>	<td>	Ashvagandharishta	</td>	</tr>
+<tr>	<td>	Balarishta	</td>	</tr>
+<tr>	<td>	Chandanasava	</td>	</tr>
+<tr>	<td>	Dashamularishta	</td>	</tr>
+<tr>	<td>	Drakshasava	</td>	</tr>
+<tr>	<td>	Draksharishta	</td>	</tr>
+<tr>	<td>	Jirakadyarishta	</td>	</tr>
+<tr>	<td>	Kanakasava	</td>	</tr>
+<tr>	<td>	Kumaryasava	</td>	</tr>
+<tr>	<td>	Kutajarishta	</td>	</tr>
+<tr>	<td>	Khadirarishta	</td>	</tr>
+<tr>	<td>	Lodhrasava/Rodhrasava</td>	</tr>
+<tr>	<td>	Lohasava	</td>	</tr>
+<tr>	<td>	Mustakarishta	</td>	</tr>
+<tr>	<td>	Pippalyadyasava	</td>	</tr>
+<tr>	<td>	Rohitakarishta	</td>	</tr>
+<tr>	<td>	Sarasvatarishta	</td>	</tr>
+<tr>	<td>	Ushirasava	</td>	</tr>
+<tr>	<td>	Vasakasava	</td>	</tr>
+<tr>	<td>	Punarnavasava	</td>	</tr>
+<tr>	<td>	Arka Yavani/ArkaAjvayana</td>	</tr>
+<tr>	<td>	Arka Shatpushpa/Mishr eyarka	</td>	</tr>
+<tr>	<td>	Arka Pudina	</td>	</tr>
+<tr>	<td>	Agastya Haritaki/ AgastyaRasayana	</td>	</tr>
+<tr>	<td>	Bilvadi Leha	</td>	</tr>
+<tr>	<td>	Brahama Rasayana	</td>	</tr>
+<tr>	<td>	Chitraka Haritaki	</td>	</tr>
+<tr>	<td>	Chyavanprash Avaleha	</td>	</tr>
+<tr>	<td>	Drakshavaleha	</td>	</tr>
+<tr>	<td>	Haridrakhanda Paka	</td>	</tr>
+<tr>	<td>	Kutajavaleha	</td>	</tr>
+<tr>	<td>	Kalyanak Guda	</td>	</tr>
+<tr>	<td>	Kantakaryavaleha	</td>	</tr>
+<tr>	<td>	KushmandakaRasayana	</td>	</tr>
+<tr>	<td>	Puga Khanda/Supari Paka	</td>	</tr>
+<tr>	<td>	SaubhagyashunthiPaka	</td>	</tr>
+<tr>	<td>	Shatavariguda	</td>	</tr>
+<tr>	<td>	Vasavaleha	</td>	</tr>
+<tr>	<td>	Vyaghri Haritaki	</td>	</tr>
+<tr>	<td>	Dashamula KvathaChurna	</td>	</tr>
+<tr>	<td>	Dashmula Katutraya/Kvatha Churna	</td>	</tr>
+<tr>	<td>	Dhanyapanchaka/Kashaya Churna	</td>	</tr>
+<tr>	<td>	"Guduchyadi Kashaya
+Churna"	</td>	</tr>
+<tr>	<td>	"Indukantam
+Kashayam Churna"	</td>	</tr>
+<tr>	<td>	"Pancha-valkala
+Kashaya Churna"	</td>	</tr>
+<tr>	<td>	"Pathyadi
+Kvatha(Shadanga)
+Churna"	</td>	</tr>
+<tr>	<td>	"Phalatrikadi Kvatha
+Churna"	</td>	</tr>
+<tr>	<td>	"Rasnasaptaka
+Kashaya Churna"	</td>	</tr>
+<tr>	<td>	"Shadanga
+Kvatha Churna"	</td>	</tr>
+<tr>	<td>	"Trinapanchamula
+Kvatha Churna"	</td>	</tr>
+<tr>	<td>	"Varunadi Kvatha
+Churna"	</td>	</tr>
+<tr>	<td>	"Vasaguduchyadi
+Kashaya Churna"	</td>	</tr>
+<tr>	<td>	Amritadi Guggulu	</td>	</tr>
+<tr>	<td>	Gokshuradi Guggulu	</td>	</tr>
+<tr>	<td>	Kanchanara Guggulu	</td>	</tr>
+<tr>	<td>	Kaishora Guggulu	</td>	</tr>
+<tr>	<td>	Lakshadi Guggulu	</td>	</tr>
+<tr>	<td>	Navak Guggulu	</td>	</tr>
+<tr>	<td>	Rasna Guggulu	</td>	</tr>
+<tr>	<td>	Simhanada Guggulu	</td>	</tr>
+<tr>	<td>	"Saptavinshati
+Guggulu"	</td>	</tr>
+<tr>	<td>	Triphala Guggulu	</td>	</tr>
+<tr>	<td>	"Trayodashanga
+Guggulu"	</td>	</tr>
+<tr>	<td>	Punarnava Guggulu	</td>	</tr>
+<tr>	<td>	Yogaraja Guggulu	</td>	</tr>
+<tr>	<td>	Brahmi Ghrita	</td>	</tr>
+<tr>	<td>	Dadimadi Ghrita	</td>	</tr>
+<tr>	<td>	"Guggulutiktaka
+Ghrita"	</td>	</tr>
+<tr>	<td>	Jathyadi Ghrita	</td>	</tr>
+<tr>	<td>	Kalyanaka Ghrita	</td>	</tr>
+<tr>	<td>	"Kshirashatpala
+Ghrita"	</td>	</tr>
+<tr>	<td>	Panchatikta Ghrita	</td>	</tr>
+<tr>	<td>	Phala Ghrita	</td>	</tr>
+<tr>	<td>	Shatavaryadi Ghrita	</td>	</tr>
+<tr>	<td>	Sukumar Ghrita	</td>	</tr>
+<tr>	<td>	Indu kanta Ghrita	</td>	</tr>
+<tr>	<td>	Tiktaka Ghrita	</td>	</tr>
+<tr>	<td>	Triphala Ghrita	</td>	</tr>
+<tr>	<td>	"Ajamodadi
+Churna"	</td>	</tr>
+<tr>	<td>	Avipattikara Churna	</td>	</tr>
+<tr>	<td>	"Balachaturbhadra
+Churna"	</td>	</tr>
+<tr>	<td>	Bilvadi Churna	</td>	</tr>
+<tr>	<td>	Dadimastak Churna	</td>	</tr>
+<tr>	<td>	"Dashanasanskara
+Churna"	</td>	</tr>
+<tr>	<td>	Eladi Churna	</td>	</tr>
+<tr>	<td>	"Hingvashtaka
+Churna"	</td>	</tr>
+<tr>	<td>	"Lavanabhaskara
+Churna/
+Bhaskarlavan churna"	</td>	</tr>
+<tr>	<td>	"Nisha-Amalaki
+Churna"	</td>	</tr>
+<tr>	<td>	Pushyanuga Churna	</td>	</tr>
+<tr>	<td>	"Panchanimba
+Churna"	</td>	</tr>
+<tr>	<td>	Sitopaladi Churna	</td>	</tr>
+<tr>	<td>	Talishadya Churna	</td>	</tr>
+<tr>	<td>	Trikatu Churna	</td>	</tr>
+<tr>	<td>	Triphala Churna	</td>	</tr>
+<tr>	<td>	Jatiphaladya Churna	</td>	</tr>
+<tr>	<td>	Amalaki Churna	</td>	</tr>
+<tr>	<td>	Arjuna Churna	</td>	</tr>
+<tr>	<td>	 Ashvagandha Churna	</td>	</tr>
+<tr>	<td>	Gokshura Churna	</td>	</tr>
+<tr>	<td>	Guduchi Churna	</td>	</tr>
+<tr>	<td>	Haritaki Churna	</td>	</tr>
+<tr>	<td>	Pippali Churna	</td>	</tr>
+<tr>	<td>	Pippali mula Churna	</td>	</tr>
+<tr>	<td>	Punarnava Churna	</td>	</tr>
+<tr>	<td>	Shunthi Churna	</td>	</tr>
+<tr>	<td>	Sarasvata Churna	</td>	</tr>
+<tr>	<td>	Trivritamul Churna /Trivrita Churna	</td>	</tr>
+<tr>	<td>	Vidanga Churna	</td>	</tr>
+<tr>	<td>	Yashtimadhu/Madhuyashti/ Yashti Churna	</td>	</tr>
+<tr>	<td>	Anutaila	</td>	</tr>
+<tr>	<td>	"Apamargkshara
+Taila"	</td>	</tr>
+<tr>	<td>	Bala Taila	</td>	</tr>
+<tr>	<td>	"Balashvagandhadi
+Taila"	</td>	</tr>
+<tr>	<td>	Bhringaraja Tail	</td>	</tr>
+<tr>	<td>	"Dhanvantar
+Taila/Dhanvantar
+Taila Avarti"	</td>	</tr>
+<tr>	<td>	Eranda Taila	</td>	</tr>
+<tr>	<td>	Erimedadi Taila	</td>	</tr>
+<tr>	<td>	"Gandharvahasta
+Taila"	</td>	</tr>
+<tr>	<td>	Jatyadi Taila	</td>	</tr>
+<tr>	<td>	Kshirbala Taila /
+Kshirbala Taila
+Avarti (Shatapaki)</td>	</tr>
+<tr>	<td>	Kottamachukkadi
+Taila	</td>	</tr>
+<tr>	<td>	Karpuradi Taila	</td>	</tr>
+<tr>	<td>	Kasisadi Taila	</td>	</tr>
+<tr>	<td>	Laghuvishagarbha
+Taila	</td>	</tr>
+<tr>	<td>	Marichyadi Taila	</td>	</tr>
+<tr>	<td>	Mahanarayan Taila	</td>	</tr>
+<tr>	<td>	Brihanmasha Taila
+/Mahamash Taila	</td>	</tr>
+<tr>	<td>	Murivenna Tail	</td>	</tr>
+<tr>	<td>	Narayana Taila	</td>	</tr>
+<tr>	<td>	Nalpamaradi Taila	</td>	</tr>
+<tr>	<td>	Nirgundi Taila	</td>	</tr>
+<tr>	<td>	Panchaguna Taila	</td>	</tr>
+<tr>	<td>	Pinda Taila	</td>	</tr>
+<tr>	<td>	Prasarini Taila	</td>	</tr>
+<tr>	<td>	Sahacharadi Taila/
+Brihatsahcharadi
+Taila	</td>	</tr>
+<tr>	<td>	Saindhavadi Taila	</td>	</tr>
+<tr>	<td>	Shadabindu Taila	</td>	</tr>
+<tr>	<td>	Somaraji Taila
+/Bakuchi Taila</td>	</tr>
+<tr>	<td>	Apamarga Kshar	</td>	</tr>
+<tr>	<td>	Yavakshar	</td>	</tr>
+<tr>	<td>	Ksharsutra	</td>	</tr>
+<tr>	<td>	Dashanga Lepa	</td>	</tr>
+<tr>	<td>	Shveta Malaham	</td>	</tr>
+<tr>	<td>	Sarjarasa Malahara	</td>	</tr>
+<tr>	<td>	Abhayadi Modakam	</td>	</tr>
+<tr>	<td>	Bilvadi Gutika	</td>	</tr>
+<tr>	<td>	Chandraprabha Vati	</td>	</tr>
+<tr>	<td>	Chitrakadi Gutika	</td>	</tr>
+<tr>	<td>	Dhanvantar Gutika	</td>	</tr>
+<tr>	<td>	Eladi Gutika	</td>	</tr>
+<tr>	<td>	Kankayan Gutika	</td>	</tr>
+<tr>	<td>Khadiradi Gutika
+(Mukhroga)	</td>	</tr>
+<tr>	<td>	Kutajaghan Vati	</td>	</tr>
+<tr>	<td>	Lavangadi Vati	</td>	</tr>
+<tr>	<td>	Lahsunadi Vati	</td>	</tr>
+<tr>	<td>	Prabhakara Vati	</td>	</tr>
+<tr>	<td>	Rajahpravartini Vati	</td>	</tr>
+<tr>	<td>	Samshamani Vati
+/ Guduchighana Vati	</td>	</tr>
+<tr>	<td>	Sarpagandhaghana
+Vati</td>	</tr>
+<tr>	<td>	Sanjivani Vati	</td>	</tr>
+<tr>	<td>	Vettumaran Gulika	</td>	</tr>
+<tr>	<td>	Elanirkuzambu/N
+alikeranjana</td>	</tr>
+<tr>	<td>	Guduchi Sattva	</td>	</tr>
+<tr>	<td>	Panchamrita Parpati	</td>	</tr>
+<tr>	<td>	Shveta
+Parpati/Kshara
+Parpati	</td>	</tr>
+<tr>	<td>	Akika Pishti	</td>	</tr>
+<tr>	<td>	Mukta Pishti	</td>	</tr>
+<tr>	<td>	Pravala Pishti	</td>	</tr>
+<tr>	<td>	Godanti Bhasma	</td>	</tr>
+<tr>	<td>	Jaharamohara
+Bhasma	</td>	</tr>
+<tr>	<td>	Kapardika Bhasma	</td>	</tr>
+<tr>	<td>	Mandur Bhasma	</td>	</tr>
+<tr>	<td>	Muktashukti Bhasma	</td>	</tr>
+<tr>	<td>	Shankha Bhasma	</td>	</tr>
+<tr>	<td>	Sphatika Bhasma	</td>	</tr>
+<tr>	<td>	Tankana Bhasma/
+Saubhagya Bhasma</td>	</tr>
+<tr>	<td>	Punarnavadi
+Mandura</td>	</tr>
+<tr>	<td>	Arogyavardhini
+Vati/Rasa	</td>	</tr>
+<tr>	<td>	Arsho Kuthara Rasa	</td>	</tr>
+<tr>	<td>	Brahmi Vati	</td>	</tr>
+<tr>	<td>	Gandhak Rasayana	</td>	</tr>
+<tr>	<td>	Kamadudha Rasa	</td>	</tr>
+<tr>	<td>	Laghumalini Vasanta
+Rasa	</td>	</tr>
+<tr>	<td>	Laghu Sutashekhara
+Rasa	</td>	</tr>
+<tr>	<td>	Navajivana Rasa	</td>	</tr>
+<tr>	<td>	Shankha Vati	</td>	</tr>
+<tr>	<td>	Shirahshuladi vajra
+Rasa	</td>	</tr>
+<tr>	<td>	Shvasakuthara Rasa	</td>	</tr>
+<tr>	<td>	Smritisagara Rasa	</td>	</tr>
+<tr>	<td>	Tribhuvankirti Rasa	</td>	</tr>
+<tr>	<td>	Vatagajankusha Rasa	</td>	</tr>
+<tr>	<td>	Vatavidhavansan
+Rasa	</td>	</tr>
+<tr>	<td>	Navayasa Lauha	</td>	</tr>
+<tr>	<td>	Saptamrita Lauha	</td>	</tr>
+
+ </table>
+<!--  Footer section-->
+<footer class="relative bg-gray-300 pt-8 pb-6">
+  <div
+    class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+    style="height: 80px;"
+  >
+    <svg
+      class="absolute bottom-0 overflow-hidden"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+      version="1.1"
+      viewBox="0 0 2560 100"
+      x="0"
+      y="0"
+    >
+      <polygon
+        class="text-gray-300 fill-current"
+        points="2560 0 2560 100 0 100"
+      ></polygon>
+    </svg>
+  </div>
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-6/12 px-4">
+        <h4 class="text-3xl font-semibold">AYURVEDA</h4>
+
+
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6">
+          <div class="w-full lg:w-4/12 px-4 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2"
+              >Useful Links</span
+            >
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.creative-tim.com/presentation"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="{{ url_for('service') }}">
+                  Services</a
+                >
+              </li>
+
+            </ul>
+          </div>
+          <div class="w-full lg:w-4/12 px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2"
+              >Other Resources</span
+            >
+            <ul class="list-unstyled">
+
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="{{url_for('termscondition')}}"
+                  >Terms &amp; Conditions</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="{{url_for('termscondition')}}"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="#"
+                  >Contact Us
+                  <br><br>
+                      gaurivibhute209@gmail.com
+                      <br>
+                      swapnalishah737@gmail.com4
+                      <br>shrutibabhale17190299@gmail.com<br>
+                      arpitashrigani@gmail.com</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full md:w-4/12 px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600 font-semibold py-1">
+          Copyright © 2023 Ayurveda
+          <a
+            href="#"
+            class="text-gray-600 hover:text-gray-900"
+            > </a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--  Footer section-->
+<script>
+  function toggleNavbar(collapseID) {
+    document.getElementById(collapseID).classList.toggle("hidden");
+    document.getElementById(collapseID).classList.toggle("block");
+      const beginButton = document.getElementById("beginButton");
+      beginButton.addEventListener("click", function() {
+      window.location.href = "login.html";
+});
+  }
+  function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className == "flex-1 items-center text-black") {
+      x.className += " responsive";
+    } else {
+      x.className = "tflex items-center text-black";
+    }
+  }
+</script>
+<script>
+  function toggleNavbar(collapseID) {
+    const navbarList = document.getElementById(collapseID);
+    navbarList.classList.toggle("hidden");
+    navbarList.classList.toggle("show");
+  }
+</script>
+</body>
+</html>
+
+</body>
+</html>
